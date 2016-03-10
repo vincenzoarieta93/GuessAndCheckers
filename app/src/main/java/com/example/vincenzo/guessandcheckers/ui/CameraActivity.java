@@ -1,4 +1,4 @@
-package com.example.vincenzo.myfirstofficialeopencvtest.ui;
+package com.example.vincenzo.guessandcheckers.ui;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
@@ -7,10 +7,14 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
-import org.opencv.core.Size;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -18,43 +22,51 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vincenzo.myfirstofficialeopencvtest.core.CameraController;
-import com.example.vincenzo.myfirstofficialeopencvtest.core.ChessboardForHandler;
-import com.example.vincenzo.myfirstofficialeopencvtest.core.ChessboardHandler;
-import com.example.vincenzo.myfirstofficialeopencvtest.core.ChessboardHandlerBridge;
-import com.example.vincenzo.myfirstofficialeopencvtest.core.ChessboardManager;
-import com.example.vincenzo.myfirstofficialeopencvtest.R;
-import com.example.vincenzo.myfirstofficialeopencvtest.core.MyNativeCameraWrapper;
-import com.example.vincenzo.myfirstofficialeopencvtest.core.game_objects.Chessboard;
+import com.example.vincenzo.guessandcheckers.core.ai.prompter.base.AbstractASPManager;
+import com.example.vincenzo.guessandcheckers.core.image_processing.CameraController;
+import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardForHandler;
+import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardHandler;
+import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardHandlerBridge;
+import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardManager;
+import com.example.vincenzo.guessandcheckers.R;
+import com.example.vincenzo.guessandcheckers.core.image_processing.MyNativeCameraWrapper;
+import com.example.vincenzo.guessandcheckers.core.game_objects.Chessboard;
+import com.example.vincenzo.guessandcheckers.core.game_objects.ChessboardImpl;
 
 import java.io.IOException;
 
 
 public class CameraActivity extends Activity implements CvCameraViewListener2, ChessboardHandler {
 
-    private static final String TAG = "CICCIOPASTICCIO";
+    public static final String INTRO_FIRST_START = "Guess&CheckersFirstStart";
+
     public static final int SUCCESS = 1;
     public static final int FAIL = 0;
     public static final int START = 2;
     public static final int STOP = -1;
+    private static final String CHESSBOARD_LABEL = "CHESSBOARD";
 
     private Mat mRgba;
     private MyNativeCameraWrapper mOpenCvCameraView;
     private CameraController cameraController;
-    private Chessboard chessboardWithPawns;
+    private Chessboard chessboardWithPawns = new ChessboardImpl();
     private MyHandler handler;
     private MediaPlayer mMediaPlayer;
     private ChessboardHandler handlerManager;
     private ProgressBar progressBarImgProc;
-    FragmentManager fm = getFragmentManager();
+    private FragmentManager fm = getFragmentManager();
+    private ResultDialogFragment dial;
+    private TextView whiteIndicator;
+    private TextView blackIndicator;
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -62,7 +74,6 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
-                    Log.i(TAG, "OpenCV loaded successfully");
                     mOpenCvCameraView.enableView();
                 }
                 break;
@@ -79,26 +90,83 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
         this.handlerManager.setNext(this);
     }
 
+    public void hideUserIndicators() {
+        this.whiteIndicator.setVisibility(View.GONE);
+        this.blackIndicator.setVisibility(View.GONE);
+    }
+
+    public void displayUserIndicators() {
+        this.whiteIndicator.setVisibility(View.VISIBLE);
+        this.blackIndicator.setVisibility(View.VISIBLE);
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.handler = new MyHandler();
 
-        this.cameraController = new CameraController(new ChessboardManager(this), this.handler);
+        if (savedInstanceState != null)
+            chessboardWithPawns = (Chessboard) savedInstanceState.getSerializable(CHESSBOARD_LABEL);
+
+        this.handler = new MyHandler();
+        initIntro();
+        this.cameraController = new CameraController(new ChessboardManager(this));
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_camera);
 
         this.progressBarImgProc = (ProgressBar) findViewById(R.id.progress_bar);
 
-        if (this.progressBarImgProc != null) {
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/riffic.otf");
+
+        this.whiteIndicator = (TextView) findViewById(R.id.white_indicator);
+        this.blackIndicator = (TextView) findViewById(R.id.black_indicator);
+        displayUserIndicators();
+
+        this.whiteIndicator.setTypeface(tf);
+        this.blackIndicator.setTypeface(tf);
+
+        if (this.progressBarImgProc != null)
             this.progressBarImgProc.setVisibility(View.GONE);
-        }
 
         mOpenCvCameraView = (MyNativeCameraWrapper) findViewById(R.id.tutorial2_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
+        Mediator.getInstance().setCameraActivity(this);
     }
 
+    private void initIntro() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean(INTRO_FIRST_START, true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent i = new Intent(CameraActivity.this, IntroActivity.class);
+                    startActivity(i);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean(INTRO_FIRST_START, false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+    }
 
     @Override
     public void handleState(int outCode, ChessboardForHandler chessboardForHandler) {
@@ -135,13 +203,14 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
                     vibrate(300);
                     progressBarImgProc.setVisibility(View.GONE);
                     playAudio(Uri.parse("android.resource://" + "com.example.vincenzo.myfirstofficialeopencvtest" + "/" + R.raw.capture_on));
-                    ResultDialogFragment dial = ResultDialogFragment.newInstance(chessboardWithPawns);
-                    dial.setStyle(0, R.style.MyAlertDialogTheme);
-                    dial.show(fm, "CICCIO");
+                    hideUserIndicators();
+                    dial = ResultDialogFragment.newInstance(chessboardWithPawns);
+                    hideUserIndicators();
+                    showFragment(dial, ResultDialogFragment.LABEL_CLASS);
                     break;
 
                 case CameraActivity.FAIL:
-                    Log.i(TAG, "No chessboard was found");
+//                    Log.i(TAG, "No chessboard was found");
                     break;
             }
         }
@@ -178,16 +247,35 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
     }
 
     private void vibrate(int time) {
-        Vibrator v = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+        Vibrator v = (Vibrator) this.getSystemService(CameraActivity.VIBRATOR_SERVICE);
         if (v != null && v.hasVibrator()) {
             v.vibrate(time);
         }
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(CHESSBOARD_LABEL, chessboardWithPawns);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onPause() {
+
         super.onPause();
-        super.onPause();
+        try {
+            unregisterReceiver(AbstractASPManager.handler);
+        } catch (IllegalArgumentException ie) {
+            //do nothing
+        }
+        //Detaching resultDialogFragment make me sure that when activity restored backStack is empty
+        Fragment mFragment = this.fm.findFragmentByTag(ResultDialogFragment.LABEL_CLASS);
+        if (mFragment != null && !mFragment.isDetached()) {
+            FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+            ft.detach(mFragment);
+            ft.commit();
+        }
+
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
     }
@@ -196,12 +284,24 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
     public void onResume() {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
-            Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
         } else {
-            Log.d(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
+
+        Fragment mFragment = this.fm.findFragmentByTag(ResultDialogFragment.LABEL_CLASS);
+        if (mFragment != null && mFragment.isDetached()) {
+            showFragment(mFragment, ResultDialogFragment.LABEL_CLASS);
+            Mediator.getInstance().setCameraActivity(this);
+        }
+    }
+
+    private void showFragment(Fragment mFragment, String fragmentTag) {
+
+        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+        ft.add(mFragment, fragmentTag);
+        ft.attach(mFragment);
+        ft.commit();
     }
 
     public void onDestroy() {
