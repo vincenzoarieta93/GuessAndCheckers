@@ -1,0 +1,17 @@
+pawn(0,4,white,king,1).
+pawn(0,6,black,king,2).
+pawn(1,5,black,king,3).
+pawn(1,7,black,man,4).
+pawn(2,0,black,man,5).
+pawn(2,2,white,king,6).
+pawn(2,4,white,man,7).
+pawn(2,6,black,man,8).
+pawn(3,1,white,man,9).
+pawn(3,3,white,king,10).
+pawn(3,7,black,king,11).
+pawn(4,0,black,king,12).
+pawn(4,2,white,man,13).
+pawn(4,4,black,king,14).
+pawn(4,6,white,man,15).
+pawn(5,3,black,king,16).
+pawn(5,7,black,king,17).

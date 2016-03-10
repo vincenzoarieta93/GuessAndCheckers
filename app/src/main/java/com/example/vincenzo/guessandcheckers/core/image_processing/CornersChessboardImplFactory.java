@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class CornersChessboardImplFactory implements ChessboardFactory {
 
-    public static final String TAG = "CICCIOPASTICCIO";
+    public static final String TAG = "CICCIO";
     public static final int CHESSBOARD_INNER_CORNERS = 7;
     public static final int SCALED_IMAGE_SIZE = 450;
     public static final int CHESSBOARD_SIZE = 8;

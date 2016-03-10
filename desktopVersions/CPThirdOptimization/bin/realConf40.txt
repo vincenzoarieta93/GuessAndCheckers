@@ -1,0 +1,6 @@
+pawn(0,6,black,king,1).
+pawn(2,6,black,king,2).
+pawn(4,4,white,king,3).
+pawn(5,3,white,king,4).
+pawn(5,7,white,king,5).
+pawn(6,4,white,king,6).

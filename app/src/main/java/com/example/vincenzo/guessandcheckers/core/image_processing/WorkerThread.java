@@ -40,7 +40,7 @@ public class WorkerThread extends Thread {
             } catch (ChessboardNotFoundException e) {
                 obj.setChessboard(null);
                 obj.handleState(BUILDING_FAILED);
-                Log.i("CICCIOPASTICCIO", "not chessboard was found");
+//                Log.i("CICCIOPASTICCIO", "not chessboard was found");
             }
             quietlySleep(200);
         }
