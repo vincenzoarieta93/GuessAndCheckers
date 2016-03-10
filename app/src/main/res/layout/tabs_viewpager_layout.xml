@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="0dp">
+
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:background="@drawable/blue_skype"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/logo_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="210dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/app_title"
+                android:scaleType="fitCenter" />
+
+            <ImageButton
+                android:id="@+id/home_button"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/scaled_home_button" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/body_container"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.85"
+        android:background="@drawable/blue_skype"
+        android:orientation="vertical">
+
+        <TabHost
+            android:id="@android:id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:id="@+id/hScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <TabWidget
+                        android:id="@android:id/tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></TabWidget>
+                </HorizontalScrollView>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    </LinearLayout>
+
+</LinearLayout>

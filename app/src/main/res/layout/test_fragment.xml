@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:id="@+id/chessboard_container"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:text="@string/Left">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/empty_chessboard"
+            android:contentDescription="chessboard" />
+
+        <GridLayout
+            android:id="@+id/pawns_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:columnCount="8"
+
+            android:orientation="horizontal"
+            android:rowCount="8">
+
+        </GridLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:text="@string/Right">
+
+        <Button
+            android:id="@+id/black_suggest"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/black_to_move_button"
+            android:enabled="true"
+            android:singleLine="false"
+            android:text="@string/black_to_move_button"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/white_suggest"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/black_suggest"
+            android:background="@drawable/white_to_move_button"
+            android:enabled="true"
+            android:singleLine="false"
+            android:text="@string/white_to_move_button"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/undo_button"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/white_suggest"
+            android:background="@drawable/undo_button_enabled"
+            android:enabled="true"
+            android:singleLine="false"
+            android:text="@string/undo_button"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/undo_button"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/cancel_button"
+            android:enabled="true"
+            android:singleLine="false"
+            android:text="@string/cancel_button"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+</LinearLayout>

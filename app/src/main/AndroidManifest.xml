@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vincenzo.myfirstofficialeopencvtest" >
+    package="com.example.vincenzo.guessandcheckers">
 
     <application
         android:allowBackup="true"
@@ -9,32 +9,62 @@
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
 
         <activity
-            android:name=".ui.CameraActivity"
-            android:screenOrientation="landscape"
-            android:configChanges="keyboardHidden|orientation">
+            android:name="com.example.vincenzo.guessandcheckers.ui.SplashActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.example.vincenzo.guessandcheckers.ui.CameraActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity
+            android:name="com.example.vincenzo.guessandcheckers.ui.SuggestActivity"
+            android:theme="@style/SuggestActivityTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape">
+        </activity>
+
+        <activity android:name="com.example.vincenzo.guessandcheckers.ui.IntroActivity"
+            android:label="@string/IntroActivityLabel"
+            android:theme="@style/SuggestActivityTheme"
+            />
+
+
     </application>
 
-    <supports-screens android:resizeable="true"
-        android:smallScreens="true"
-        android:normalScreens="true"
+    <supports-screens
+        android:anyDensity="true"
         android:largeScreens="true"
-        android:anyDensity="true" />
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
     <uses-sdk android:minSdkVersion="8" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="false"/>;
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.front" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.front.autofocus" android:required="false"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:required="false" />;
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front.autofocus"
+        android:required="false" />
 
 </manifest>

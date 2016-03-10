@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:id="@+id/progress_container"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        >
+        
+        <LinearLayout
+            android:id="@+id/text_progress_container"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/progress_message"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="40sp"
+                android:text="please wait ..."
+                android:textColor="@android:color/white"
+
+                />
+
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/progress_bar_container"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical"
+            >
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:id="@+id/suggest_progress_bar" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

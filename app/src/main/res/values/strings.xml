@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Guess And Checkers</string>
+    <string name="paint_activity_name">PaintActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="white_to_move_button">White to Move</string>
+    <string name="black_to_move_button">Black to Move</string>
+    <string name="undo_button">Undo</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="Right">Right</string>
+    <string name="Left">Left</string>
+    <string name="IntroActivityLabel">Intro</string>
+    <string name="slide1Descr">Tap the screen to start search for checkerboard.\nTap the screen again to stop</string>
+    <string name="slide2Descr">Tap either a pawn or an empty cell to change the status of this one</string>
+    <string name="slide3Descr">Mind the indicators you\'ll see on the screen.In order to receive a consistent hint, position yourself so that indicators are satisfied</string>
+    <string name="slide4Descr">It\'s essential that checkerboard has a clear line which encloses its squares as in the example above.</string>
+    <string name="slide5Descr">Make sure that the lightning condition is \"good\".Lightning condition is \"good\" if you can perfectly distinguish pawns shapes and color by covering an eye of yours.</string>
+    <string name="slide6Descr"></string>
+</resources>

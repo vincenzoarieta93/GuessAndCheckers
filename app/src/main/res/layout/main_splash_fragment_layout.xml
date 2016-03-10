@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_skype"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/splash_title_container"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/splash_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@drawable/app_title"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/splash_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/splash_image"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@drawable/shaded_app_icon" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#11000000</color>
+    <color name="transparent_light_blue">#CC31C3FF</color>
+    <color name="skype_light_blue">#31C3FF</color>
+    <color name="white">#FFF</color>
+</resources>
