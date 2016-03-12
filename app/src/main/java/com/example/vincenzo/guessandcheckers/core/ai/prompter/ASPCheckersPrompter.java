@@ -6,7 +6,7 @@ import android.util.Log;
 import com.example.vincenzo.guessandcheckers.core.ai.prompter.base.ASPPrompter;
 import com.example.vincenzo.guessandcheckers.core.game_objects.BlackPawn;
 import com.example.vincenzo.guessandcheckers.core.game_objects.WhitePawn;
-import com.example.vincenzo.guessandcheckers.core.suggesting.Observed;
+import com.example.vincenzo.guessandcheckers.core.suggesting.Observer;
 import com.example.vincenzo.guessandcheckers.core.support_libraries.AIModulesProvider;
 import com.example.vincenzo.guessandcheckers.core.support_libraries.MatchConfigurationAnalyzer;
 import com.example.vincenzo.guessandcheckers.core.game_objects.Chessboard;
@@ -36,7 +36,7 @@ public class ASPCheckersPrompter extends ASPPrompter {
     }
 
     @Override
-    public void solve(Observed observed) {
+    public void solve(Observer observer) {
         ChessboardImpl chessboardImpl = (ChessboardImpl) chessboard;
         //betterMoves uses several dlv modules to find the best moves to do at a certain moment
         //and retrieves all the checkerboard configurations which we would obtain if we played those moves
@@ -48,7 +48,7 @@ public class ASPCheckersPrompter extends ASPPrompter {
             return;
         }
 
-        observed.notify("processing better moves...");
+        observer.notify("processing better moves...");
         List<GameConfiguration> configurations = betterMoves(chessboardImpl, null, color, context);
 
         //depth search level (number of look-ahead
@@ -64,21 +64,21 @@ public class ASPCheckersPrompter extends ASPPrompter {
 
         if (configurations.size() > 1) {
 
-            observed.notify("simulation in progress...");
+            observer.notify("simulation in progress...");
             List<GameConfiguration> configurationsToEvaluate = new ArrayList<>();
 
             int progressIncrement = 100 / configurations.size();
             int iterations = 0;
 
             for (GameConfiguration conf : configurations) {
-                observed.notify("simulation progress: " + progressIncrement * iterations + "%");
+                observer.notify("simulation progress: " + progressIncrement * iterations + "%");
                 simulateMatch(conf, conf.move, color, configurationsToEvaluate, countDepthLevels, depthEvaluation, context);
                 iterations++;
             }
-            observed.notify("simulation finished");
+            observer.notify("simulation finished");
 
             if (configurationsToEvaluate.size() > 1) {
-                observed.notify("starting evaluation process...");
+                observer.notify("starting evaluation process...");
                 GameConfiguration bestConfiguration = getBestGameConfiguration(configurationsToEvaluate);
                 bestMoves = bestConfiguration.move;
             } else//there is at least one configuration

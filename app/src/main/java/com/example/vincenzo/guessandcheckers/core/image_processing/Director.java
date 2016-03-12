@@ -10,7 +10,6 @@ import org.opencv.core.Mat;
  */
 public class Director {
     private CornersChessboardBuilder builder;
-    private Mat threshChessboard;
 
     public Director(CornersChessboardBuilder builder) {
         this.builder = builder;
@@ -22,7 +21,6 @@ public class Director {
             this.builder.buildCompleteChessboardMatrix();
         else
             throw new ChessboardNotFoundException("No CornersChessboard was found");
-
     }
 
     public Chessboard getCompleteChessboard() {

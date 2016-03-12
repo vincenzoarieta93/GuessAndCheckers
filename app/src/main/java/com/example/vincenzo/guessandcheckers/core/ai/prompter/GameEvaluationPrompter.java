@@ -6,7 +6,7 @@ import com.example.vincenzo.guessandcheckers.core.ai.prompter.base.ASPPrompter;
 import com.example.vincenzo.guessandcheckers.core.ai.prompter_callback.GameEvaluationCallback;
 import com.example.vincenzo.guessandcheckers.core.game_objects.ChessboardImpl;
 import com.example.vincenzo.guessandcheckers.core.game_objects.PawnsColor;
-import com.example.vincenzo.guessandcheckers.core.suggesting.Observed;
+import com.example.vincenzo.guessandcheckers.core.suggesting.Observer;
 import com.example.vincenzo.guessandcheckers.core.support_libraries.AIModulesProvider;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class GameEvaluationPrompter extends ASPPrompter {
     }
 
     @Override
-    public void solve(Observed obj) {
+    public void solve(Observer obj) {
         initConditionsToFalse();
         this.bestConfiguration = findSolution();
     }

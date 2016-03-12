@@ -17,7 +17,7 @@ import com.example.vincenzo.guessandcheckers.core.game_objects.Move;
 import com.example.vincenzo.guessandcheckers.core.game_objects.Pawn;
 import com.example.vincenzo.guessandcheckers.core.game_objects.WhiteDama;
 import com.example.vincenzo.guessandcheckers.core.game_objects.WhitePawn;
-import com.example.vincenzo.guessandcheckers.core.suggesting.Observed;
+import com.example.vincenzo.guessandcheckers.core.suggesting.Observer;
 import com.example.vincenzo.guessandcheckers.core.support_libraries.AIModulesProvider;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class ChooserCapturingPrompter extends ASPPrompter {
     }
 
     @Override
-    public void solve(Observed observed) {
+    public void solve(Observer observer) {
         initConditionsToFalse();
         this.bestJumps = makeJumps();
     }

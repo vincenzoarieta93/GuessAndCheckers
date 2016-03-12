@@ -11,7 +11,7 @@ import com.example.vincenzo.guessandcheckers.core.game_objects.ChessboardImpl;
 import com.example.vincenzo.guessandcheckers.core.game_objects.ConcreteMove;
 import com.example.vincenzo.guessandcheckers.core.game_objects.Move;
 import com.example.vincenzo.guessandcheckers.core.game_objects.PawnsColor;
-import com.example.vincenzo.guessandcheckers.core.suggesting.Observed;
+import com.example.vincenzo.guessandcheckers.core.suggesting.Observer;
 import com.example.vincenzo.guessandcheckers.core.support_libraries.FileManager;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class AllLegalMovesPrompter extends ASPPrompter {
 
 
     @Override
-    public void solve(Observed observed) {
+    public void solve(Observer observer) {
         initConditionsToFalse();
         configureJumpsPrompter(context);
 

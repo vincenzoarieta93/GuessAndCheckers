@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.vincenzo.guessandcheckers.R;
 import com.example.vincenzo.guessandcheckers.core.game_objects.Chessboard;
 import com.example.vincenzo.guessandcheckers.core.suggesting.CheckersHint;
-import com.example.vincenzo.guessandcheckers.core.suggesting.Observed;
+import com.example.vincenzo.guessandcheckers.core.suggesting.Observer;
 import com.example.vincenzo.guessandcheckers.core.game_objects.Move;
 import com.example.vincenzo.guessandcheckers.core.suggesting.Prompter;
 import com.example.vincenzo.guessandcheckers.core.suggesting.PrompterProvider;
@@ -94,7 +94,7 @@ public class HintProgressDialog extends DialogFragment {
         this.myAsyncTask.execute();
     }
 
-    public class MyAsyncTask extends AsyncTask<String, String, Move> implements Observed {
+    public class MyAsyncTask extends AsyncTask<String, String, Move> implements Observer {
 
         private Prompter prompter;
 
