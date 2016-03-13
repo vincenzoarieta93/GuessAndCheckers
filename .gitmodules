@@ -1,4 +1,3 @@
 [submodule "embasp"]
 	path = embasp
 	url = https://github.com/DeMaCS-UNICAL/EmbASP
-
