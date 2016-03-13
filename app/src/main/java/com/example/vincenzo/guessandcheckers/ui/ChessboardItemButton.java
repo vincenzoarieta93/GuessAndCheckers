@@ -22,7 +22,7 @@ public class ChessboardItemButton extends ImageView {
     private int col;
     private Chessboard chessboard;
     private ResultDialogFragment dialog;
-    private FlyWeightFactory flyWeightFactory = FlyWeightFactory.getInstance();
+    private PawnsRepository pawnsRepository = PawnsRepository.getInstance();
 
     public ChessboardItemButton(Context context, Chessboard chessboard, int row, int col, ResultDialogFragment dialog) {
         super(context);
@@ -52,7 +52,7 @@ public class ChessboardItemButton extends ImageView {
 
                     case MotionEvent.ACTION_UP:
                         if(((row == 0 || row % 2 == 0) && (col % 2 == 0 || col == 0)) || ((row % 2 != 0 && row != 0) && (col %2 != 0 && col != 0))) {
-                            Constructor[] constructors = flyWeightFactory.getNextClazz(chessboard.getCell(row, col).getClass()).getDeclaredConstructors();
+                            Constructor[] constructors = pawnsRepository.getNextClazz(chessboard.getCell(row, col).getClass()).getDeclaredConstructors();
                             Constructor ctor = null;
                             for (int i = 0; i < constructors.length; i++) {
                                 ctor = constructors[i];
@@ -94,6 +94,6 @@ public class ChessboardItemButton extends ImageView {
     }
 
     public void updateBackgroundResource() {
-        setBackgroundResource(flyWeightFactory.getCurrentResource(chessboard.getCell(row, col).getClass()));
+        setBackgroundResource(pawnsRepository.getCurrentResource(chessboard.getCell(row, col).getClass()));
     }
 }
