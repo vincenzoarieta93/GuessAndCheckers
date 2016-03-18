@@ -82,6 +82,7 @@ public class ResultDialogFragment extends DialogFragment {
             this.chessboard = (Chessboard) savedInstanceState.getSerializable(CHESSBOARD_PARAMETER_LABEL);
         } else
             this.chessboard = (Chessboard) getArguments().getSerializable(CHESSBOARD_PARAMETER_LABEL);
+        Mediator.getInstance().setResultDialogFragment(this);
     }
 
     @Override
@@ -246,12 +247,19 @@ public class ResultDialogFragment extends DialogFragment {
         gridLayout.addOnLayoutChangeListener(gridListener);
     }
 
-    public synchronized void addMemento(FromMementoToCareTaker memento) {
+    private void addMemento(FromMementoToCareTaker memento) {
         this.mementos.addFirst(memento);
         try {
             if (this.mementos.size() >= MAX_MEMENTOS)
                 this.mementos.removeLast();
         } catch (NoSuchElementException e) {
+        }
+    }
+
+    public synchronized void createMemento(int row, int col){
+        if (this.chessboard instanceof ChessboardMementoOriginator) {
+            FromMementoToCareTaker memento = ((ChessboardMementoOriginator) this.chessboard).createMemento(row, col);
+            addMemento(memento);
         }
     }
 
@@ -311,7 +319,7 @@ public class ResultDialogFragment extends DialogFragment {
 
         for (int i = 0; i < chessboardLength; i++) {
             for (int j = 0; j < chessboardLength; j++) {
-                ChessboardItemButton btn = new ChessboardItemButton(this.mActivity, chessboard, i, j, this);
+                ChessboardItemButton btn = new ChessboardItemButton(this.mActivity, chessboard, i, j);
                 btn.setEnabled(true);
                 btn.setLayoutParams(new ViewGroup.LayoutParams(buttonSize, buttonSize));
                 if (chessboard.getCell(i, j) instanceof BlackPawn) {

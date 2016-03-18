@@ -21,15 +21,13 @@ public class ChessboardItemButton extends ImageView {
     private int row;
     private int col;
     private Chessboard chessboard;
-    private ResultDialogFragment dialog;
     private PawnsRepository pawnsRepository = PawnsRepository.getInstance();
 
-    public ChessboardItemButton(Context context, Chessboard chessboard, int row, int col, ResultDialogFragment dialog) {
+    public ChessboardItemButton(Context context, Chessboard chessboard, int row, int col) {
         super(context);
         this.row = row;
         this.col = col;
         this.chessboard = chessboard;
-        this.dialog = dialog;
         addOnClickListener();
     }
 
@@ -66,15 +64,16 @@ public class ChessboardItemButton extends ImageView {
                                 //logic update
                                 FromMementoToCareTaker memento;
                                 if (chessboard instanceof ChessboardMementoOriginator) {
-                                    memento = ((ChessboardMementoOriginator) chessboard).createMemento(row, col);
-                                    dialog.addMemento(memento);
+                                    Mediator.getInstance().createMemento(row,col);
+//                                    memento = ((ChessboardMementoOriginator) chessboard).createMemento(row, col);
+//                                    dialog.addMemento(memento);
                                 }
                                 ChessboardItem item = (ChessboardItem) ctor.newInstance();
                                 item.setPosition(row, col);
                                 chessboard.setCell(row, col, item);
 //
                                 //graphics update
-                                dialog.setEnableUndoButton();
+                                Mediator.getInstance().setEnableUndoButton();
                                 setBackgroundResource(0);
                                 updateBackgroundResource();
 

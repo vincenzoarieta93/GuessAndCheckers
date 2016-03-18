@@ -1,5 +1,7 @@
 package com.example.vincenzo.guessandcheckers.core.image_processing;
 
+import com.example.vincenzo.guessandcheckers.core.game_objects.Chessboard;
+
 /**
  * Created by vincenzo on 30/10/2015.
  */
@@ -19,7 +21,7 @@ public class ChessboardHandlerBridge implements ChessboardHandler {
 
 
     @Override
-    public void handleState(int STATE, ChessboardForHandler obj) {
+    public void handleState(int STATE, Chessboard obj) {
         this.next.handleState(STATE, obj);
     }
 

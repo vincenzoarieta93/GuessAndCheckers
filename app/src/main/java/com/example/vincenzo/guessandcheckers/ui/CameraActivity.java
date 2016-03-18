@@ -33,7 +33,6 @@ import android.widget.Toast;
 
 import com.example.vincenzo.guessandcheckers.core.ai.prompter.base.AbstractASPManager;
 import com.example.vincenzo.guessandcheckers.core.image_processing.CameraController;
-import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardForHandler;
 import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardHandler;
 import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardHandlerBridge;
 import com.example.vincenzo.guessandcheckers.core.image_processing.ChessboardManager;
@@ -169,11 +168,11 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
     }
 
     @Override
-    public void handleState(int outCode, ChessboardForHandler chessboardForHandler) {
-        sendMessageToHandler(outCode, chessboardForHandler);
+    public void handleState(int outCode, Chessboard chessboardFromHandler) {
+        sendMessageToHandler(outCode, chessboardFromHandler);
     }
 
-    private void sendMessageToHandler(int CODE, ChessboardForHandler obj) {
+    private void sendMessageToHandler(int CODE, Chessboard obj) {
         Message msg = handler.obtainMessage(CODE, obj);
         msg.sendToTarget();
     }
@@ -198,8 +197,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, C
                     break;
 
                 case CameraActivity.SUCCESS:
-                    ChessboardForHandler c = (ChessboardForHandler) msg.obj;
-                    chessboardWithPawns = c.getChessboard();
+                    chessboardWithPawns = (Chessboard) msg.obj;
                     vibrate(300);
                     progressBarImgProc.setVisibility(View.GONE);
                     playAudio(Uri.parse("android.resource://" + "com.example.vincenzo.myfirstofficialeopencvtest" + "/" + R.raw.capture_on));
